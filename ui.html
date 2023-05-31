@@ -1,0 +1,57 @@
+<h2>Calculator</h2>
+<!-- <p>Count: <input id="count" type="number" value="5"></p> -->
+<div id="variables">
+    <p>Variable: <input id="variable-0" type="text" value="var=300"></p>
+</div>
+<!-- <button id="create">Create</button>
+<button id="cancel">Cancel</button> -->
+<button id="add">Add variable</button>
+<button id="calculate">Calculate</button>
+<script>
+    // document.getElementById('create').onclick = () => {
+    //     const textbox = document.getElementById('count');
+    //     const count = parseInt(textbox.value, 10);
+    //     parent.postMessage({
+    //         pluginMessage: {
+    //             type: 'create-shapes',
+    //             count
+    //         }
+    //     }, '*')
+    // }
+
+    // document.getElementById('cancel').onclick = () => {
+    //     parent.postMessage({
+    //         pluginMessage: {
+    //             type: 'cancel'
+    //         }
+    //     }, '*')
+    // }
+
+    let i = 0;
+
+    document.getElementById('add').onclick = () => {
+        let variable = document.createElement('p');
+        i++;
+        variable.innerHTML = `Variable: <input id="variable-${i}" type="text" value="var=300">`;
+        document.getElementById('variables').appendChild(variable);
+    }
+
+    document.getElementById('calculate').onclick = () => {
+        const varArray = document.getElementById('variables');
+        let variables = {};
+        Array.from(varArray.children).forEach(v => {
+            console.log(v)
+            const varname = v.children[0].value.trim().split('=')[0];
+            const varvalue = v.children[0].value.trim().split('=')[1];
+            variables[varname] = varvalue;
+        })
+
+        console.log('send post message : ', variables)
+        parent.postMessage({
+            pluginMessage: {
+                type: 'calculate',
+                variables
+            }
+        }, '*')
+    }
+</script>
